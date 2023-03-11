@@ -7,10 +7,21 @@ export default function define(sequelize: Sequelize) {
             allowNull: false,
             primaryKey: true,
         },
-        role: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: 'user',
         },
+        timeZone: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        osuId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        discordId: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        }
     });
 }

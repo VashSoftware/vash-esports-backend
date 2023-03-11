@@ -19,6 +19,10 @@ export default function define(sequelize: Sequelize) {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         lowerRankLimit: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -31,8 +35,20 @@ export default function define(sequelize: Sequelize) {
             type: DataTypes.DATE,
             allowNull: false,
         },
+        started: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
         finished: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        osuForumThreadId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        challongeId: {
+            type: DataTypes.STRING,
             allowNull: false,
         }
     });

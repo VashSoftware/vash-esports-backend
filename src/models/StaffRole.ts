@@ -1,7 +1,7 @@
 import {DataTypes, Sequelize} from "sequelize";
 
 export default function define(sequelize: Sequelize) {
-    return sequelize.define('Round', {
+    return sequelize.define('StaffRole', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
