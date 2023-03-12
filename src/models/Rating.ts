@@ -6,6 +6,10 @@ export default function define(sequelize: Sequelize) {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+        },
+        rating: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     });
 }

@@ -102,6 +102,12 @@ StaffRoles.belongsTo(Events);
 Users.hasMany(StaffRoles);
 StaffRoles.belongsTo(Users);
 
+Rounds.belongsTo(Pools);
+Pools.hasMany(Rounds);
+
+Pools.belongsToMany(Maps, { through: 'PoolMaps' });
+Maps.belongsToMany(Pools, { through: 'PoolMaps' });
+
 sequelize.sync({ alter: true })
     .then(() => {
         console.log('Database synchronized');
@@ -127,7 +133,7 @@ app.get('/api/events', async (req, res) => {
 
 app.get('/api/events/:id', async (req, res) => {
     const eventById = await Events.findByPk(req.params.id, {
-        include: [Organisations, Games, Teams, Rounds]
+        include: [Organisations, Games, Teams, Rounds, StaffRoles]
     });
 
     res.send(eventById);
@@ -214,7 +220,9 @@ app.post('/api/maps', async (req, res) => {
 });
 
 app.get('/api/matches', async (req, res) => {
-    const matches = await Matches.findAll();
+    const matches = await Matches.findAll({
+        include: ["team1", "team2"]
+    });
 
     res.send(matches);
 });
@@ -269,11 +277,11 @@ app.get('/api/registrations', async (req, res) => {
     res.send(registrations);
 });
 
-app.post('/api/registrations', async (req, res) => {
+app.post('/api/events/:id/register', async (req, res) => {
     // check if team is already registered
     const existingRegistration = await sequelize.models.Registrations.findOne({
         where: {
-            EventId: req.body.eventId,
+            EventId: req.params.id,
             TeamId: req.body.teamId
         }
     });
@@ -290,10 +298,29 @@ app.post('/api/registrations', async (req, res) => {
     res.send(newRegistration);
 });
 
-app.get('/api/teams', async (req, res) => {
-    const teams = await Teams.findAll();
+app.post('/api/events/:id/unregister', async (req, res) => {
+    const registration = await sequelize.models.Registrations.findOne({
+        where: {
+            EventId: req.params.id,
+            TeamId: req.body.teamId
+        }
+    });
 
-    res.send(teams);
+    if (!registration) {
+        return res.status(400).send({ error: 'Team is not registered for this event' });
+    }
+
+    await registration.destroy();
+
+    res.send(registration);
+});
+
+app.get('/api/teams', async (req, res) => {
+    const user = await Users.findByPk(req.query.userId.toString(), {
+        include: [Teams]
+    });
+
+    res.send(user.get('Teams'));
 });
 
 app.post('/api/teams', async (req, res) => {
@@ -306,6 +333,17 @@ app.post('/api/teams', async (req, res) => {
     await newTeam.addUser(user);
 
     res.send(newTeam);
+});
+
+app.get('/api/ratings', async (req, res) => {
+    const ratings = await Ratings.findAll({
+        where: {
+            UserFirebaseId: req.query.userId
+        },
+        include: [Games]
+    });
+
+    res.send(ratings);
 });
 
 app.listen(4000);
