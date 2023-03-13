@@ -1,0 +1,7 @@
+model Map {
+  id     Int     @id @default(autoincrement())
+  pools  Pool[]
+  scores Score[]
+
+  @@map("maps")
+}

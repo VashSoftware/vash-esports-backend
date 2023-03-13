@@ -1,0 +1,8 @@
+model Badge {
+  id      Int    @id @default(autoincrement())
+  event   Event  @relation(references: [id], fields: [eventId])
+  eventId Int
+  users   User[]
+
+  @@map("badges")
+}

@@ -1,0 +1,7 @@
+model UserRole {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+
+  @@map("user_roles")
+}

@@ -1,0 +1,16 @@
+model User {
+  id            String         @id
+  username      String         @db.VarChar(20)
+  password      String         @db.VarChar(20)
+  timezone      String
+  osuId         Int?           @map("osu_id")
+  discordId     String?        @map("discord_id")
+  userRoles     UserRole[]
+  staffRoles    StaffRole[]
+  teams         Team[]
+  organisations Organisation[]
+  ratings       Rating[]
+  badges        Badge[]
+
+  @@map("users")
+}

@@ -1,0 +1,7 @@
+model StaffRole {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+
+  @@map("staff_roles")
+}

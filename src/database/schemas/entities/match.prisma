@@ -1,0 +1,9 @@
+model Match {
+  id      Int     @id @default(autoincrement())
+  teams   Team[]
+  score   Score[]
+  event   Event   @relation(references: [id], fields: [eventId])
+  eventId Int     @map("event_id")
+
+  @@map("matches")
+}

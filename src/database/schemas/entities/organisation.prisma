@@ -1,0 +1,8 @@
+model Organisation {
+  id      Int     @id @default(autoincrement())
+  name    String
+  members User[]
+  events  Event[]
+
+  @@map("organisations")
+}
