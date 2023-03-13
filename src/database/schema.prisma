@@ -8,10 +8,12 @@ datasource db {
 }
 
 model Badge {
-  id      Int    @id @default(autoincrement())
-  event   Event  @relation(references: [id], fields: [eventId])
-  eventId Int
-  users   User[]
+  id        Int      @id @default(autoincrement())
+  event     Event    @relation(references: [id], fields: [eventId])
+  eventId   Int
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("badges")
 }
@@ -21,9 +23,10 @@ model Event {
   name             String
   teamSize         Int          @map("team_size")
   playingTeamSize  Int          @map("playing_team_size")
-  type             String
   lowerRankLimit   Int          @map("lower_rank_limit")
   upperRankLimit   Int          @map("upper_rank_limit")
+  bracketType      String       @map("bracket_type")
+  qualifierType    String       @map("qualifier_type")
   startTime        DateTime     @map("start_time")
   isStarted        Boolean      @default(false) @map("is_started")
   isFinished       Boolean      @default(false) @map("is_finished")
@@ -33,95 +36,121 @@ model Event {
   organisationId   Int
   game             Game         @relation(fields: [gameId], references: [id])
   gameId           Int
+  participants     Team[]
   badges           Badge[]
   matches          Match[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 
   @@map("events")
 }
 
 model Game {
-  id     Int     @id @default(autoincrement())
-  name   String
-  events Event[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  events    Event[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("games")
 }
 
 model Map {
-  id     Int     @id @default(autoincrement())
-  pools  Pool[]
-  scores Score[]
+  id        Int      @id @default(autoincrement())
+  pools     Pool[]
+  scores    Score[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("maps")
 }
 
 model Match {
-  id      Int     @id @default(autoincrement())
-  teams   Team[]
-  score   Score[]
-  event   Event   @relation(references: [id], fields: [eventId])
-  eventId Int     @map("event_id")
+  id        Int      @id @default(autoincrement())
+  teams     Team[]
+  score     Score[]
+  event     Event    @relation(references: [id], fields: [eventId])
+  eventId   Int      @map("event_id")
+  rounds    Round[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("matches")
 }
 
 model Organisation {
-  id      Int     @id @default(autoincrement())
-  name    String
-  members User[]
-  events  Event[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  members   User[]
+  events    Event[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("organisations")
 }
 
 model Pool {
-  id   Int   @id @default(autoincrement())
-  maps Map[]
+  id        Int      @id @default(autoincrement())
+  maps      Map[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("pools")
 }
 
 model Rating {
-  id     Int    @id @default(autoincrement())
-  value  Int
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  id        Int      @id @default(autoincrement())
+  value     Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("ratings")
 }
 
 model Round {
-  id   Int    @id @default(autoincrement())
-  name String
+  id        Int      @id @default(autoincrement())
+  name      String
+  matches   Match[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("rounds")
 }
 
 model Score {
-  id      Int      @id @default(autoincrement())
-  points  Int
-  time    DateTime
-  map     Map      @relation(fields: [mapId], references: [id])
-  mapId   Int
-  match   Match    @relation(fields: [matchId], references: [id])
-  matchId Int
+  id        Int      @id @default(autoincrement())
+  points    Int
+  time      DateTime
+  map       Map      @relation(fields: [mapId], references: [id])
+  mapId     Int
+  match     Match    @relation(fields: [matchId], references: [id])
+  matchId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("scores")
 }
 
 model StaffRole {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("staff_roles")
 }
 
 model Team {
-  id      Int     @id @default(autoincrement())
-  name    String
-  members User[]
-  matches Match[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  members   User[]
+  matches   Match[]
+  events    Event[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("teams")
 }
@@ -139,14 +168,18 @@ model User {
   organisations Organisation[]
   ratings       Rating[]
   badges        Badge[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   @@map("users")
 }
 
 model UserRole {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("user_roles")
 }

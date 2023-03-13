@@ -1,8 +1,10 @@
 model Organisation {
-  id      Int     @id @default(autoincrement())
-  name    String
-  members User[]
-  events  Event[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  members   User[]
+  events    Event[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("organisations")
 }

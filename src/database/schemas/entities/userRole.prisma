@@ -1,7 +1,9 @@
 model UserRole {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("user_roles")
 }

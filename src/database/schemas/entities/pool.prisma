@@ -1,6 +1,8 @@
 model Pool {
-  id   Int   @id @default(autoincrement())
-  maps Map[]
+  id        Int      @id @default(autoincrement())
+  maps      Map[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("pools")
 }

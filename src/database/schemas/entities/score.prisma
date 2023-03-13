@@ -1,11 +1,13 @@
 model Score {
-  id      Int      @id @default(autoincrement())
-  points  Int
-  time    DateTime
-  map     Map      @relation(fields: [mapId], references: [id])
-  mapId   Int
-  match   Match    @relation(fields: [matchId], references: [id])
-  matchId Int
+  id        Int      @id @default(autoincrement())
+  points    Int
+  time      DateTime
+  map       Map      @relation(fields: [mapId], references: [id])
+  mapId     Int
+  match     Match    @relation(fields: [matchId], references: [id])
+  matchId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("scores")
 }

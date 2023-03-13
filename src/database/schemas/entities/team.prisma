@@ -1,8 +1,10 @@
 model Team {
-  id      Int     @id @default(autoincrement())
-  name    String
-  members User[]
-  matches Match[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  members   User[]
+  matches   Match[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("teams")
 }

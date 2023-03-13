@@ -1,7 +1,9 @@
 model Game {
-  id     Int     @id @default(autoincrement())
-  name   String
-  events Event[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  events    Event[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("games")
 }

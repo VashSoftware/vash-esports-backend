@@ -1,7 +1,9 @@
 model Map {
-  id     Int     @id @default(autoincrement())
-  pools  Pool[]
-  scores Score[]
+  id        Int      @id @default(autoincrement())
+  pools     Pool[]
+  scores    Score[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("maps")
 }

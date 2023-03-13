@@ -1,8 +1,10 @@
 model Badge {
-  id      Int    @id @default(autoincrement())
-  event   Event  @relation(references: [id], fields: [eventId])
-  eventId Int
-  users   User[]
+  id        Int      @id @default(autoincrement())
+  event     Event    @relation(references: [id], fields: [eventId])
+  eventId   Int
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("badges")
 }
