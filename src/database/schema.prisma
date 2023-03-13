@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Badge {
+  id      Int    @id @default(autoincrement())
+  event   Event  @relation(references: [id], fields: [eventId])
+  eventId Int
+  users   User[]
+
+  @@map("badges")
+}
+
+model Event {
+  id               Int          @id @default(autoincrement())
+  name             String
+  teamSize         Int          @map("team_size")
+  playingTeamSize  Int          @map("playing_team_size")
+  type             String
+  lowerRankLimit   Int          @map("lower_rank_limit")
+  upperRankLimit   Int          @map("upper_rank_limit")
+  startTime        DateTime     @map("start_time")
+  isStarted        Boolean      @default(false) @map("is_started")
+  isFinished       Boolean      @default(false) @map("is_finished")
+  osuForumThreadId Int?         @map("osu_forum_thread_id")
+  challongeId      String       @map("challonge_id")
+  organisation     Organisation @relation(fields: [organisationId], references: [id])
+  organisationId   Int
+  game             Game         @relation(fields: [gameId], references: [id])
+  gameId           Int
+  badges           Badge[]
+  matches          Match[]
+
+  @@map("events")
+}
+
+model Game {
+  id     Int     @id @default(autoincrement())
+  name   String
+  events Event[]
+
+  @@map("games")
+}
+
+model Map {
+  id     Int     @id @default(autoincrement())
+  pools  Pool[]
+  scores Score[]
+
+  @@map("maps")
+}
+
+model Match {
+  id      Int     @id @default(autoincrement())
+  teams   Team[]
+  score   Score[]
+  event   Event   @relation(references: [id], fields: [eventId])
+  eventId Int     @map("event_id")
+
+  @@map("matches")
+}
+
+model Organisation {
+  id      Int     @id @default(autoincrement())
+  name    String
+  members User[]
+  events  Event[]
+
+  @@map("organisations")
+}
+
+model Pool {
+  id   Int   @id @default(autoincrement())
+  maps Map[]
+
+  @@map("pools")
+}
+
+model Rating {
+  id     Int    @id @default(autoincrement())
+  value  Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@map("ratings")
+}
+
+model Round {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  @@map("rounds")
+}
+
+model Score {
+  id      Int      @id @default(autoincrement())
+  points  Int
+  time    DateTime
+  map     Map      @relation(fields: [mapId], references: [id])
+  mapId   Int
+  match   Match    @relation(fields: [matchId], references: [id])
+  matchId Int
+
+  @@map("scores")
+}
+
+model StaffRole {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+
+  @@map("staff_roles")
+}
+
+model Team {
+  id      Int     @id @default(autoincrement())
+  name    String
+  members User[]
+  matches Match[]
+
+  @@map("teams")
+}
+
+model User {
+  id            String         @id
+  username      String         @db.VarChar(20)
+  password      String         @db.VarChar(20)
+  timezone      String
+  osuId         Int?           @map("osu_id")
+  discordId     String?        @map("discord_id")
+  userRoles     UserRole[]
+  staffRoles    StaffRole[]
+  teams         Team[]
+  organisations Organisation[]
+  ratings       Rating[]
+  badges        Badge[]
+
+  @@map("users")
+}
+
+model UserRole {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+
+  @@map("user_roles")
+}
