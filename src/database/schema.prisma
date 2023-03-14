@@ -67,14 +67,15 @@ model Map {
 }
 
 model Match {
-  id        Int      @id @default(autoincrement())
-  teams     Team[]
-  score     Score[]
-  event     Event    @relation(references: [id], fields: [eventId])
-  eventId   Int      @map("event_id")
-  rounds    Round[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  isFinished Boolean  @default(false) @map("is_finished")
+  teams      Team[]
+  scores     Score[]
+  event      Event    @relation(references: [id], fields: [eventId])
+  eventId    Int      @map("event_id")
+  rounds     Round[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("matches")
 }
