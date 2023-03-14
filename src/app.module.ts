@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { MatchesModule } from './matches/matches.module';
 import { OrganisationsModule } from './organisations/organisations.module';
+import { TeamsModule } from './teams/teams.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { OrganisationsModule } from './organisations/organisations.module';
     UsersModule,
     MatchesModule,
     OrganisationsModule,
+    TeamsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -66,15 +66,6 @@ export class EventsRepository {
   }
 
   async unregisterFromEvent(eventId: number, teamId: number) {
-    const registeredTeam = await this.findTeamEntryForEvent(
-      eventId,
-      teamId
-    );
-    if (isNil(registeredTeam)) {
-      throw new BadRequestException(
-        'Team is not registered for this event'
-      );
-    }
     return await this.prismaService.event.update({
       where: {
         id: eventId,
@@ -85,14 +76,14 @@ export class EventsRepository {
       data: {
         participants: {
           disconnect: {
-            id: registeredTeam.id,
+            id: teamId,
           },
         },
       },
     });
   }
 
-  private async findTeamEntryForEvent(
+  async findTeamEntryForEvent(
     eventId: number,
     teamId: number
   ) {
