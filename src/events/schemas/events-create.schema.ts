@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { errorUtil } from 'zod/lib/helpers/errorUtil';
 import ErrMessage = errorUtil.ErrMessage;
-import { QualifierType } from '../enums/qualifier-type.enum';
-import { BracketTypeEnum } from '../enums/bracket-type.enum';
+import { QualifierType } from '@vash-backend/util/enums/qualifier-type.enum';
+import { BracketTypeEnum } from '@vash-backend/util/enums/bracket-type.enum';
 import { isNil } from '@nestjs/common/utils/shared.utils';
 
 const EventNameLengthError: ErrMessage =

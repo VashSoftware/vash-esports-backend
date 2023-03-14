@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EventsRepository } from './repositories/events.repository';
 import { EventCreateDto } from './dtos/event-create.dto';
-import { eventsCreateSchema } from '../util/zod-schemas/events-create.schema';
+import { eventsCreateSchema } from './schemas/events-create.schema';
 
 @Injectable()
 export class EventsService {

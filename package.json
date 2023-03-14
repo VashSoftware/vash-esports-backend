@@ -10,9 +10,9 @@
     "build": "vash-api/node_modules/.bin/nest build",
     "format": "vash-api/node_modules/.bin/prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "prisma:assemble": "cat ./src/database/schemas/connection.prisma ./src/database/schemas/entities/*.prisma > ./src/database/schema.prisma",
-    "start": "vash-api/node_modules/.bin/nest start",
-    "start:dev": "vash-api/node_modules/.bin/nest start --watch",
-    "start:debug": "vash-api/node_modules/.bin/nest start --debug --watch",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "vash-api/node_modules/.bin/eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "vash-api/node_modules/.bin/jest",
@@ -26,23 +26,27 @@
     "@nestjs/core": "^9.3.9",
     "@nestjs/platform-express": "^9.3.9",
     "@prisma/client": "^4.11.0",
+    "bcrypt": "^5.1.0",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "prisma": "^4.11.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^4.4.0",
     "rxjs": "^7.8.0",
+    "uuid": "^9.0.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.2.0",
     "@nestjs/schematics": "^9.0.4",
     "@nestjs/testing": "^9.3.9",
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jest": "29.4.0",
     "@types/node": "^18.15.1",
     "@types/supertest": "^2.0.12",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "eslint": "^8.36.0",
@@ -74,5 +78,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "prisma": {
+    "schema": "src/database/schema.prisma"
   }
 }

@@ -1,7 +1,8 @@
 model User {
-  id            String         @id
-  username      String         @db.VarChar(20)
-  password      String         @db.VarChar(20)
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  username      String         @unique @db.VarChar(20)
+  password      String
   timezone      String
   osuId         Int?           @map("osu_id")
   discordId     String?        @map("discord_id")
