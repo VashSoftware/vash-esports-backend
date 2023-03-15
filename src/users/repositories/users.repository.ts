@@ -27,12 +27,12 @@ export class UsersRepository {
   }
 
   async createUser(userCreateDto: UserCreateDto) {
-    const { username, password, timezone } = userCreateDto;
+    const { username, timezone, firebaseId } = userCreateDto;
     return await this.prismaService.user.create({
       data: {
         username,
-        password,
         timezone,
+        firebaseId
       },
     });
   }

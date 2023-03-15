@@ -38,8 +38,9 @@ model Event {
   game             Game         @relation(fields: [gameId], references: [id])
   gameId           Int
   participants     Team[]
+  staff            User[]
   badges           Badge[]
-  matches          Match[]
+  rounds           Round[]
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
 
@@ -50,6 +51,7 @@ model Game {
   id        Int      @id @default(autoincrement())
   name      String
   events    Event[]
+  ratings   Rating[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -57,11 +59,12 @@ model Game {
 }
 
 model Map {
-  id        Int      @id @default(autoincrement())
-  pools     Pool[]
-  scores    Score[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  osuBeatmapId Int
+  pools        Pool[]
+  scores       Score[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("maps")
 }
@@ -71,9 +74,8 @@ model Match {
   isFinished Boolean  @default(false) @map("is_finished")
   teams      Team[]
   scores     Score[]
-  event      Event    @relation(references: [id], fields: [eventId])
-  eventId    Int      @map("event_id")
-  rounds     Round[]
+  rounds     Round    @relation(fields: [roundId], references: [id])
+  roundId    Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
@@ -94,6 +96,7 @@ model Organisation {
 model Pool {
   id        Int      @id @default(autoincrement())
   maps      Map[]
+  round     Round[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -105,6 +108,8 @@ model Rating {
   value     Int
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
+  game      Game     @relation(fields: [gameId], references: [id])
+  gameId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -114,6 +119,10 @@ model Rating {
 model Round {
   id        Int      @id @default(autoincrement())
   name      String
+  pool      Pool     @relation(fields: [poolId], references: [id])
+  poolId    Int
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   Int
   matches   Match[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -129,6 +138,8 @@ model Score {
   mapId     Int
   match     Match    @relation(fields: [matchId], references: [id])
   matchId   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -160,7 +171,7 @@ model Team {
 model User {
   id            Int            @id @default(autoincrement())
   username      String         @unique @db.VarChar(20)
-  firebaseId    String         @unique
+  firebaseId    String         @unique @map("firebase_id")
   timezone      String
   osuId         Int?           @map("osu_id")
   discordId     String?        @map("discord_id")
@@ -168,8 +179,10 @@ model User {
   staffRoles    StaffRole[]
   teams         Team[]
   organisations Organisation[]
+  events        Event[]
   ratings       Rating[]
   badges        Badge[]
+  scores        Score[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 

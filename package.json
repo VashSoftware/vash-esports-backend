@@ -24,6 +24,7 @@
   "dependencies": {
     "@nestjs/common": "^9.3.9",
     "@nestjs/core": "^9.3.9",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.3.9",
     "@prisma/client": "^4.11.0",
     "bcrypt": "^5.1.0",
