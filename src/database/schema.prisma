@@ -1,11 +1,22 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["clientExtensions"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+enum Ranks {
+  F
+  D
+  C
+  B
+  A
+  S
+  SH
+  SS
+  X
 }
 
 model Badge {
@@ -49,7 +60,7 @@ model Event {
 
 model Game {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   events    Event[]
   ratings   Rating[]
   createdAt DateTime @default(now())
@@ -60,8 +71,17 @@ model Game {
 
 model Map {
   id           Int      @id @default(autoincrement())
-  osuBeatmapId Int
-  pools        Pool[]
+  osuBeatmapId Int      @unique
+  title        String
+  artist       String
+  mapper       String
+  cover        String?
+  ar           Float
+  cs           Float
+  od           Float
+  bpm          Float
+  length       String   @db.VarChar(5)
+  rounds       Round[]
   scores       Score[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -93,16 +113,6 @@ model Organisation {
   @@map("organisations")
 }
 
-model Pool {
-  id        Int      @id @default(autoincrement())
-  maps      Map[]
-  round     Round[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("pools")
-}
-
 model Rating {
   id        Int      @id @default(autoincrement())
   value     Int
@@ -119,8 +129,7 @@ model Rating {
 model Round {
   id        Int      @id @default(autoincrement())
   name      String
-  pool      Pool     @relation(fields: [poolId], references: [id])
-  poolId    Int
+  maps      Map[]
   event     Event    @relation(fields: [eventId], references: [id])
   eventId   Int
   matches   Match[]
@@ -133,6 +142,9 @@ model Round {
 model Score {
   id        Int      @id @default(autoincrement())
   points    Int
+  accuracy  Float
+  rank      Ranks
+  mods      Int
   time      DateTime
   map       Map      @relation(fields: [mapId], references: [id])
   mapId     Int
