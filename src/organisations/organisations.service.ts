@@ -14,7 +14,7 @@ export class OrganisationsService {
   }
 
   async getOrganisationByUserId(userId: number) {
-    return await this.organisationsRepository.getOrganisationByUserId(
+    return this.organisationsRepository.getOrganisationByUserId(
       userId
     );
   }

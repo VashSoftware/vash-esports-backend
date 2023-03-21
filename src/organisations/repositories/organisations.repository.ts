@@ -11,6 +11,7 @@ export class OrganisationsRepository {
     return this.prismaService.organisation.findMany({
       include: {
         members: true,
+        events: true,
       },
     });
   }
