@@ -79,6 +79,7 @@ model Map {
   ar           Float
   cs           Float
   od           Float
+  hp           Float
   bpm          Float
   length       String   @db.VarChar(5)
   rounds       Round[]

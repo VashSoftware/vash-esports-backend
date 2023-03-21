@@ -109,6 +109,7 @@ const main = async () => {
       cs: 4,
       ar: 6,
       od: 6,
+      hp: 2,
       bpm: 120,
       length: '2:22',
       artist: 'Kenji Ninuma',
