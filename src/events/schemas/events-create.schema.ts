@@ -1,9 +1,12 @@
 import { z } from 'zod';
 import { errorUtil } from 'zod/lib/helpers/errorUtil';
 import ErrMessage = errorUtil.ErrMessage;
-import { QualifierType } from '@vash-backend/util/enums/qualifier-type.enum';
+import { QualifierTypeEnum } from '@vash-backend/util/enums/qualifier-type.enum';
 import { BracketTypeEnum } from '@vash-backend/util/enums/bracket-type.enum';
 import { isNil } from '@nestjs/common/utils/shared.utils';
+
+const ISODateRegex =
+  /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/i;
 
 const EventNameLengthError: ErrMessage =
   'Name must be between 1 and 40 characters';
@@ -26,7 +29,10 @@ export const eventsCreateSchema = z
       .min(1, EventNameLengthError)
       .max(40, EventNameLengthError)
       .nonempty(EventNameIsRequiredError),
-    startTime: z.date().min(new Date(), EventDateLessThanNowError),
+    startTime: z
+      .string()
+      .regex(ISODateRegex)
+      .transform((date) => new Date(date)),
     teamSize: z
       .number()
       .int()
@@ -37,13 +43,16 @@ export const eventsCreateSchema = z
       .int()
       .min(1, PlayingTeamSizeError)
       .max(8, PlayingTeamSizeError),
-    qualifierType: z.nativeEnum(QualifierType),
+    qualifierType: z.nativeEnum(QualifierTypeEnum),
     bracketType: z.nativeEnum(BracketTypeEnum),
     lowerRankLimit: z.number().int().min(1, RankLimitError).nullish(),
     upperRankLimit: z.number().int().min(1, RankLimitError).nullish(),
     osuForumThreadId: z.number().int().nullish(),
     isStarted: z.boolean().nullish(),
     isFinished: z.boolean().nullish(),
+    gameId: z.number(),
+    organisationId: z.number(),
+    challongeId: z.string(),
   })
   .strict()
   .refine((event) => {
@@ -54,3 +63,5 @@ export const eventsCreateSchema = z
       return event.upperRankLimit < event.lowerRankLimit;
     }
   }, 'Upper limit must be less than lower limit');
+
+export type EventsCreateDto = z.infer<typeof eventsCreateSchema>;

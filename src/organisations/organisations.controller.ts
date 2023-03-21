@@ -6,9 +6,11 @@ import {
   ParseIntPipe,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { OrganisationsService } from '@vash-backend/organisations/organisations.service';
 import { OrganisationCreateDto } from '@vash-backend/organisations/dtos/organisation-create.dto';
 
+@ApiTags('Organisations')
 @Controller('organisations')
 export class OrganisationsController {
   constructor(

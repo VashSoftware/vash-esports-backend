@@ -11,7 +11,7 @@ export class UsersRepository {
    * must specify `{select: { password: true }}`
    */
   async getUserById(id: number) {
-    return await this.prismaService.user.findUnique({
+    return this.prismaService.user.findUnique({
       where: {
         id,
       },
@@ -19,7 +19,7 @@ export class UsersRepository {
   }
 
   async getUserByUsername(username: string) {
-    return await this.prismaService.user.findUnique({
+    return this.prismaService.user.findUnique({
       where: {
         username,
       },
@@ -28,11 +28,11 @@ export class UsersRepository {
 
   async createUser(userCreateDto: UserCreateDto) {
     const { username, timezone, firebaseId } = userCreateDto;
-    return await this.prismaService.user.create({
+    return this.prismaService.user.create({
       data: {
         username,
         timezone,
-        firebaseId
+        firebaseId,
       },
     });
   }

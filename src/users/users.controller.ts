@@ -8,7 +8,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '@vash-backend/users/users.service';
 import { UserCreateDto } from '@vash-backend/users/dtos/user-create.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}

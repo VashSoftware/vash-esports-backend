@@ -19,19 +19,13 @@ export class MatchesRepository {
       where: {
         id: matchId,
       },
-      include: {
-        teams: true,
-        rounds: true,
-        scores: true,
-      },
     });
   }
 
   async createMatch(matchCreateDto: MatchCreateDto) {
-    const { roundId, eventId } = matchCreateDto;
+    const { roundId } = matchCreateDto;
     return await this.prismaService.match.create({
       data: {
-        eventId,
         rounds: {
           connect: {
             id: roundId,

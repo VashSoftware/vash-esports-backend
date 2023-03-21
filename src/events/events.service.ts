@@ -3,6 +3,7 @@ import { EventsRepository } from './repositories/events.repository';
 import { EventCreateDto } from './dtos/event-create.dto';
 import { eventsCreateSchema } from './schemas/events-create.schema';
 import { isNil } from '@nestjs/common/utils/shared.utils';
+import { formatZodErrors } from '@vash-backend/util/format-zod-errors';
 
 @Injectable()
 export class EventsService {
@@ -20,8 +21,11 @@ export class EventsService {
     const parse = eventsCreateSchema.safeParse(eventDto);
 
     if (parse.success === true) {
-      return this.eventsRepository.createEvent(eventDto);
-    } else throw new BadRequestException(parse.error);
+      return this.eventsRepository.createEvent(
+        parse.data as EventCreateDto
+      );
+    } else
+      throw new BadRequestException(formatZodErrors(parse.error));
   }
 
   async registerForEvent(eventId: number, teamId: number) {

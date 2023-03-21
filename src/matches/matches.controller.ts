@@ -8,7 +8,9 @@ import {
 } from '@nestjs/common';
 import { MatchesService } from '@vash-backend/matches/matches.service';
 import { MatchCreateDto } from '@vash-backend/matches/dtos/match-create.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Matches')
 @Controller('matches')
 export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}

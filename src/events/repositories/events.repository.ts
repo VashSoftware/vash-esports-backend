@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
-import { EventCreateDto } from '../dtos/event-create.dto';
+import { PrismaService } from '@vash-backend/prisma/prisma.service';
+import { EventCreateDto } from '@vash-backend/events/dtos/event-create.dto';
 import { isNil } from '@nestjs/common/utils/shared.utils';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class EventsRepository {
         organisation: true,
         game: true,
         participants: true,
-        matches: true,
+        rounds: true,
       },
     });
   }
@@ -66,7 +66,7 @@ export class EventsRepository {
   }
 
   async unregisterFromEvent(eventId: number, teamId: number) {
-    return await this.prismaService.event.update({
+    return this.prismaService.event.update({
       where: {
         id: eventId,
       },
@@ -83,11 +83,8 @@ export class EventsRepository {
     });
   }
 
-  async findTeamEntryForEvent(
-    eventId: number,
-    teamId: number
-  ) {
-    return await this.prismaService.event.findUnique({
+  async findTeamEntryForEvent(eventId: number, teamId: number) {
+    return this.prismaService.event.findUnique({
       where: {
         id: eventId,
       },

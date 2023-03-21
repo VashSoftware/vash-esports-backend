@@ -7,10 +7,12 @@ import {
   ParseIntPipe,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { EventsService } from './events.service';
 import { EventCreateDto } from './dtos/event-create.dto';
 import { EventTeamIdDto } from '@vash-backend/events/dtos/event-team-id.dto';
 
+@ApiTags('Events')
 @Controller('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
