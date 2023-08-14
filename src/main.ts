@@ -8,6 +8,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
   });
+
   const options = new DocumentBuilder()
     .setTitle('Vash API')
     .setDescription('Vash API description')
@@ -17,6 +18,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api/swagger', app, document);
+
   app.setGlobalPrefix('api/');
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
