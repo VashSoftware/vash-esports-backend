@@ -8,9 +8,14 @@ import { OrganisationsModule } from '@vash-backend/organisations/organisations.m
 import { TeamsModule } from '@vash-backend/teams/teams.module';
 import { RatingsModule } from '@vash-backend/ratings/ratings.module';
 import { MapsModule } from '@vash-backend/maps/maps.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 10,
+    }]),
     PrismaModule,
     EventsModule,
     GamesModule,
