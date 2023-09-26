@@ -20,6 +20,11 @@ export class UsersController {
     return this.userService.getUser(id);
   }
 
+  @Get()
+  async getUsers() {
+      return this.userService.getUsers();
+  }
+
   @Post('/create')
   //TODO: implement proper firebase auth
   async createUser(@Body() userCreateDto: UserCreateDto) {

@@ -12,7 +12,6 @@ model Event {
   isStarted        Boolean      @default(false) @map("is_started")
   isFinished       Boolean      @default(false) @map("is_finished")
   osuForumThreadId Int?         @map("osu_forum_thread_id")
-  challongeId      String       @map("challonge_id")
   organisation     Organisation @relation(fields: [organisationId], references: [id])
   organisationId   Int
   game             Game         @relation(fields: [gameId], references: [id])

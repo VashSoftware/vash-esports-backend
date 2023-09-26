@@ -17,6 +17,10 @@ export class EventsService {
     return this.eventsRepository.getAllUnfinishedEvents();
   }
 
+  async getAllEvents() {
+    return this.eventsRepository.getAllEvents();
+  }
+
   async createEvent(eventDto: EventCreateDto) {
     const parse = eventsCreateSchema.safeParse(eventDto);
 

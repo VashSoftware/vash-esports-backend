@@ -17,6 +17,11 @@ import { EventTeamIdDto } from '@vash-backend/events/dtos/event-team-id.dto';
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
+  @Get('/all')
+  async getAllEvents() {
+    return this.eventsService.getAllEvents();
+  }
+
   @Get('/')
   async getAllUnfinishedEvents() {
     return this.eventsService.getAllUnfinishedEvents();

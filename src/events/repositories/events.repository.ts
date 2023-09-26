@@ -7,6 +7,17 @@ import { isNil } from '@nestjs/common/utils/shared.utils';
 export class EventsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async getAllEvents() {
+    return this.prismaService.event.findMany({
+      include: {
+        organisation: true,
+        game: true,
+        participants: true,
+        rounds: true,
+      },
+    });
+  }
+
   async getAllUnfinishedEvents() {
     return this.prismaService.event.findMany({
       where: {

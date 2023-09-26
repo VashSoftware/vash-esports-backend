@@ -12,6 +12,10 @@ export class UsersService {
     return this.userRepository.getUserById(id);
   }
 
+  async getUsers() {
+        return this.userRepository.getUsers();
+    }
+
   async createUser(userCreateDto: UserCreateDto) {
     const parse = userCreateSchema.safeParse(userCreateDto);
     if (parse.success === true) {

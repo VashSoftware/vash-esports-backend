@@ -15,6 +15,9 @@ export class UsersRepository {
       where: {
         id,
       },
+      include: {
+        organisations: true,
+      }
     });
   }
 
@@ -24,6 +27,14 @@ export class UsersRepository {
         username,
       },
     });
+  }
+
+  async getUsers() {
+      return this.prismaService.user.findMany({
+            include: {
+                organisations: true,
+            }
+      });
   }
 
   async createUser(userCreateDto: UserCreateDto) {

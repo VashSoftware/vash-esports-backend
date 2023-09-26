@@ -97,12 +97,4 @@ export class EventCreateDto {
   @IsNumber()
   @IsNotEmpty()
   organisationId: number;
-
-  @ApiProperty({
-    required: true,
-    example: 'challonge',
-  })
-  @IsString()
-  @IsNotEmpty()
-  challongeId: string;
 }

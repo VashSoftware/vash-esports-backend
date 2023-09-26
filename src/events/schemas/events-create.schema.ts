@@ -52,7 +52,6 @@ export const eventsCreateSchema = z
     isFinished: z.boolean().nullish(),
     gameId: z.number(),
     organisationId: z.number(),
-    challongeId: z.string(),
   })
   .strict()
   .refine((event) => {

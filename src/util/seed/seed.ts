@@ -1,4 +1,4 @@
-import { PrismaClient }   from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { ScoreRanksEnum } from '../enums/score-ranks.enum';
 
 const prisma = new PrismaClient();
@@ -84,16 +84,15 @@ const main = async () => {
       lowerRankLimit: 10000,
       qualifierType: 'Qualifiers',
       bracketType: 'Single Elimination',
-      challongeId: 'oksd',
       participants: {
         connect: [
           {
-            id: kirbyTeam.id
+            id: kirbyTeam.id,
           },
           {
-            id: stanTeam.id
-          }
-        ]
+            id: stanTeam.id,
+          },
+        ],
       },
     },
     include: {

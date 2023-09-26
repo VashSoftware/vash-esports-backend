@@ -1,0 +1,5 @@
+dispatch:
+  - url: "esports.vashsoftware.nl/api/*"
+    service: vash-api
+  - url: "esports.vashsoftware.nl/*"
+    service: vash-website

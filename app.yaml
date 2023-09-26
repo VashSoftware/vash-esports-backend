@@ -1,0 +1,3 @@
+service: vash-api
+runtime: nodejs20
+entrypoint: npm run start:prod
