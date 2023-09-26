@@ -22,7 +22,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/');
   const prismaService = app.get(PrismaService);
-  await prismaService.enableShutdownHooks(app);
+  await app.enableShutdownHooks();
   await app.listen(process.env.PORT || 3000);
 }
 

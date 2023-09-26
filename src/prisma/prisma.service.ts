@@ -25,12 +25,6 @@ export class PrismaService
     await this.$connect();
   }
 
-  async enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit', async () => {
-      await app.close();
-    });
-  }
-
   private enableLogging() {
     this.$on('query', (event) => {
       console.log(`------Query started------`);
