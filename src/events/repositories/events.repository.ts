@@ -21,7 +21,7 @@ export class EventsRepository {
   async getAllUnfinishedEvents() {
     return this.prismaService.event.findMany({
       where: {
-        isFinished: false,
+        finishTime: null,
       },
     });
   }

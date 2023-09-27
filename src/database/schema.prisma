@@ -33,17 +33,17 @@ model Badge {
 
 model Event {
   id               Int          @id @default(autoincrement())
+  type             String
   name             String
-  teamSize         Int          @map("team_size")
-  playingTeamSize  Int          @map("playing_team_size")
-  lowerRankLimit   Int          @map("lower_rank_limit")
-  upperRankLimit   Int          @map("upper_rank_limit")
-  bracketType      String       @map("bracket_type")
-  qualifierType    String       @map("qualifier_type")
-  startTime        DateTime     @map("start_time")
-  isStarted        Boolean      @default(false) @map("is_started")
-  isFinished       Boolean      @default(false) @map("is_finished")
-  osuForumThreadId Int?         @map("osu_forum_thread_id")
+  teamSize         Int?
+  playingTeamSize  Int?
+  lowerRankLimit   Int?          
+  upperRankLimit   Int?          
+  bracketType      String?      
+  qualifierType    String?
+  startTime        DateTime?
+  isStarted        Boolean?      @default(false)
+  finishTime       DateTime?     
   organisation     Organisation @relation(fields: [organisationId], references: [id])
   organisationId   Int
   game             Game         @relation(fields: [gameId], references: [id])
