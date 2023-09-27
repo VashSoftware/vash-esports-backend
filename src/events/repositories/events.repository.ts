@@ -23,6 +23,12 @@ export class EventsRepository {
       where: {
         finishTime: null,
       },
+      include: {
+        organisation: true,
+        game: true,
+        participants: true,
+        rounds: true,
+      },
     });
   }
 
