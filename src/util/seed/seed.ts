@@ -74,7 +74,7 @@ const main = async () => {
 
   const kirbyOrgEvent = await prisma.event.create({
     data: {
-      type: 'Tournament',
+      eventType: 'Tournament',
       name: 'KirbyOrgEvent',
       gameId: osuGame.id,
       organisationId: kirbyOrg.id,

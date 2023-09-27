@@ -1,9 +1,8 @@
 import { z } from 'zod';
 import { errorUtil } from 'zod/lib/helpers/errorUtil';
 import ErrMessage = errorUtil.ErrMessage;
-import { QualifierTypeEnum } from '@vash-backend/util/enums/qualifier-type.enum';
-import { BracketTypeEnum } from '@vash-backend/util/enums/bracket-type.enum';
 import { isNil } from '@nestjs/common/utils/shared.utils';
+import { EventTypeEnum } from '@vash-backend/util/enums/event-type.enum';
 
 const ISODateRegex =
   /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/i;
@@ -29,38 +28,10 @@ export const eventsCreateSchema = z
       .min(1, EventNameLengthError)
       .max(40, EventNameLengthError)
       .nonempty(EventNameIsRequiredError),
-    startTime: z
-      .string()
-      .regex(ISODateRegex)
-      .transform((date) => new Date(date)),
-    teamSize: z
-      .number()
-      .int()
-      .min(1, TeamSizeError)
-      .max(8, TeamSizeError),
-    playingTeamSize: z
-      .number()
-      .int()
-      .min(1, PlayingTeamSizeError)
-      .max(8, PlayingTeamSizeError),
-    qualifierType: z.nativeEnum(QualifierTypeEnum),
-    bracketType: z.nativeEnum(BracketTypeEnum),
-    lowerRankLimit: z.number().int().min(1, RankLimitError).nullish(),
-    upperRankLimit: z.number().int().min(1, RankLimitError).nullish(),
-    osuForumThreadId: z.number().int().nullish(),
-    isStarted: z.boolean().nullish(),
-    isFinished: z.boolean().nullish(),
+    eventType: z.nativeEnum(EventTypeEnum),
     gameId: z.number(),
     organisationId: z.number(),
   })
-  .strict()
-  .refine((event) => {
-    if (
-      !isNil(event.lowerRankLimit) &&
-      !isNil(event.upperRankLimit)
-    ) {
-      return event.upperRankLimit < event.lowerRankLimit;
-    }
-  }, 'Upper limit must be less than lower limit');
+  .strict();
 
 export type EventsCreateDto = z.infer<typeof eventsCreateSchema>;

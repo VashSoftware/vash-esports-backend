@@ -33,7 +33,7 @@ model Badge {
 
 model Event {
   id               Int          @id @default(autoincrement())
-  type             String
+  eventType        String
   name             String
   teamSize         Int?
   playingTeamSize  Int?

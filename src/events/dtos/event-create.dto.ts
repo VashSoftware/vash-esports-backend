@@ -22,7 +22,7 @@ export class EventCreateDto {
   })
   @IsEnum(EventTypeEnum)
   @IsNotEmpty()
-  type: EventTypeEnum;
+  eventType: EventTypeEnum;
 
   @ApiProperty({
     required: true,
