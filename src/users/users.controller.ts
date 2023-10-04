@@ -22,7 +22,7 @@ export class UsersController {
 
   @Get()
   async getUsers() {
-      return this.userService.getUsers();
+    return this.userService.getUsers();
   }
 
   @Post('/create')

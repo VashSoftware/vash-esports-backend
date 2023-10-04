@@ -6,22 +6,30 @@ import { TeamCreateDto } from '@vash-backend/teams/dtos/team-create.dto';
 export class TeamsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getTeamByUserId(userId: number) {
-    return await this.prismaService.team.findFirst({
+  async getTeamById(teamId: number) {
+    return await this.prismaService.team.findMany({
       include: {
         members: {
           where: {
-            id: userId,
+            id: teamId,
           },
         },
       },
     });
   }
 
-  async createTeam(userId: number, teamName: string) {
+  async getTeams() {
+    return this.prismaService.team.findMany({
+      include: {
+        members: true,
+      },
+    });
+  }
+
+  async createTeam(userId: number, team: TeamCreateDto) {
     return this.prismaService.team.create({
       data: {
-        name: teamName,
+        name: team.teamName,
         members: {
           connect: {
             id: userId,

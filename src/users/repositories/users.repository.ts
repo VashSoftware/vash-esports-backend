@@ -17,7 +17,8 @@ export class UsersRepository {
       },
       include: {
         organisations: true,
-      }
+        teams: true,
+      },
     });
   }
 
@@ -30,11 +31,11 @@ export class UsersRepository {
   }
 
   async getUsers() {
-      return this.prismaService.user.findMany({
-            include: {
-                organisations: true,
-            }
-      });
+    return this.prismaService.user.findMany({
+      include: {
+        organisations: true,
+      },
+    });
   }
 
   async createUser(userCreateDto: UserCreateDto) {

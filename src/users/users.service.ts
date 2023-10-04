@@ -13,8 +13,8 @@ export class UsersService {
   }
 
   async getUsers() {
-        return this.userRepository.getUsers();
-    }
+    return this.userRepository.getUsers();
+  }
 
   async createUser(userCreateDto: UserCreateDto) {
     const parse = userCreateSchema.safeParse(userCreateDto);
